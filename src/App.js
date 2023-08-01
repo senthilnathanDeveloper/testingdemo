@@ -3,7 +3,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <h3>This is React App</h3>
+      <h3>This is React App --deployed the Netlify app</h3>
     </div>
   );
 }
