@@ -2,8 +2,6 @@ import React, { useEffect, useState, useTransition } from 'react'
 import { Form } from 'react-bootstrap';
 
 const TestingDemo = () => {
-    const [count, setCount] = useState(0);
-    const [flag, setFlag] = useState(true)
     const [name, setName] = useState('')
     const [list, setList] = useState([])
     const [isPending, startTransition] = useTransition();
@@ -12,9 +10,7 @@ const TestingDemo = () => {
 
 
 
-    useEffect(() => {
-        console.log("state Updated")
-    }, [count, flag])
+
 
     const ListSize = 10000;
 
