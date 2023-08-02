@@ -7,11 +7,7 @@ const TestingDemo = () => {
     const [isPending, startTransition] = useTransition();
     const [withTransition, setWithTransition] = useState('')
     const [listTransition, setListTransition] = useState([]);
-
-
-
-
-
+    
     const ListSize = 10000;
 
     const handleChange = (e) => {
