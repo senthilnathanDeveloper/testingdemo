@@ -10,15 +10,7 @@ const TestingDemo = () => {
     const [withTransition, setWithTransition] = useState('')
     const [listTransition, setListTransition] = useState([]);
 
-    const handleClick = () => {
-        setCount(c => c + 1);
-        setFlag(f => !f);
 
-        setTimeout(() => {
-            setCount(c => c + 1);
-            setFlag(f => !f);
-        }, 3000)
-    }
 
     useEffect(() => {
         console.log("state Updated")
