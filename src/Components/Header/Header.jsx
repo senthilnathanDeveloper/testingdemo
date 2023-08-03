@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap';
 
 
-const Header = ({addedItems}) => {
+const Header = ({ addedItems, setSearchQuery, value }) => {
     return (
         <>
             <Navbar expand="lg" className="bg-body-tertiary">
@@ -22,6 +22,8 @@ const Header = ({addedItems}) => {
                                 placeholder="Search"
                                 className="me-2"
                                 aria-label="Search"
+                                value={value}
+                                onChange={(e) => setSearchQuery(e.target.value)}
                             />
                             <Button variant="outline-success" size='' style={{ width: "100%" }} >Added ({addedItems.length}) Item</Button>
                         </Form>

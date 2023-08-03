@@ -5,11 +5,20 @@ import MainContent from './Components/MainContent/MainContent';
 
 function App() {
   const [addedItems, setAddedItems] = useState([]);
-  
+  const [searchQuery, setSearchQuery] = useState('');
+
   return (
     <div className="App">
-      <Header addedItems={addedItems} />
-      <MainContent addedItems={addedItems} setAddedItems={setAddedItems} />
+      <Header 
+      addedItems={addedItems} 
+      setSearchQuery={setSearchQuery} 
+      value={searchQuery} 
+      />
+      <MainContent 
+      addedItems={addedItems} 
+      setAddedItems={setAddedItems} 
+      searchQuery={searchQuery} 
+      />
     </div>
   );
 }

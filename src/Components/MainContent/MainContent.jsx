@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Card, Col, Row } from 'react-bootstrap'
 import './style.css'
 
-const MainContent = ({ addedItems, setAddedItems }) => {
+const MainContent = ({ addedItems, setAddedItems, searchQuery }) => {
     const [items, setItem] = useState([]);
     useEffect(() => {
         fetch("https://fakestoreapi.com/products/")
@@ -19,12 +19,17 @@ const MainContent = ({ addedItems, setAddedItems }) => {
         }
     };
 
+    const filteredItems = items.filter(
+        (item) =>
+            item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.category.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
 
     return (
         <>
             <Row className='row d-flex'>
-                {items.map((item, index) => (
+                {filteredItems.map((item, index) => (
                     <Col key={index} lg='4' className='mt-5'>
                         <Card style={{ width: '100%' }} className='h-100'>
                             <Card.Img variant='top' src={item.image} style={{ width: '30%' }} />
