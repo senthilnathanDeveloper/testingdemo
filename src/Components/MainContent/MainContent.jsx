@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Card, Col, Row } from 'react-bootstrap'
 import './style.css'
 
-const MainContent = ({ addedItems, setAddedItems, searchQuery }) => {
+const MainContent = ({ addedItems, setAddedItems, searchQuery, setSelectedItem }) => {
     const [items, setItem] = useState([]);
     useEffect(() => {
         fetch("https://fakestoreapi.com/products/")
@@ -14,8 +14,11 @@ const MainContent = ({ addedItems, setAddedItems, searchQuery }) => {
     const toggleAddedStatus = (itemId) => {
         if (addedItems.includes(itemId)) {
             setAddedItems(addedItems.filter((id) => id !== itemId));
+            setSelectedItem(null);
         } else {
             setAddedItems([...addedItems, itemId]);
+            const selectedItem = items.find((item) => item.id === itemId);
+            setSelectedItem(selectedItem);
         }
     };
 
@@ -28,7 +31,7 @@ const MainContent = ({ addedItems, setAddedItems, searchQuery }) => {
 
     return (
         <>
-            <Row className='row d-flex'>
+            <Row className='row d-flex m-0'>
                 {filteredItems.map((item, index) => (
                     <Col key={index} lg='4' className='mt-5'>
                         <Card style={{ width: '100%' }} className='h-100'>
