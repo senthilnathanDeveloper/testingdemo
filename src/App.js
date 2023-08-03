@@ -1,11 +1,15 @@
+import { useState } from 'react';
 import './App.css';
-import TestingDemo from './Components/TestingDemo';
+import Header from './Components/Header/Header';
+import MainContent from './Components/MainContent/MainContent';
 
 function App() {
+  const [addedItems, setAddedItems] = useState([]);
+  
   return (
     <div className="App">
-      <h3>This is React App --deployed the Netlify app</h3>
-      <TestingDemo/>
+      <Header addedItems={addedItems} />
+      <MainContent addedItems={addedItems} setAddedItems={setAddedItems} />
     </div>
   );
 }
