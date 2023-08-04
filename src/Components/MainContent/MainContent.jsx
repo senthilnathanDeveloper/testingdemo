@@ -1,26 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Button, Card, Col, Row } from 'react-bootstrap'
 import './style.css'
 
-const MainContent = ({ addedItems, setAddedItems, searchQuery, setSelectedItem }) => {
-    const [items, setItem] = useState([]);
-    useEffect(() => {
-        fetch("https://fakestoreapi.com/products/")
-            .then((res) => res.json())
-            .then((data) => setItem(data));
-    }, []);
+const MainContent = ({ addedItems, searchQuery, toggleAddedStatus, items }) => {
 
-
-    const toggleAddedStatus = (itemId) => {
-        if (addedItems.includes(itemId)) {
-            setAddedItems(addedItems.filter((id) => id !== itemId));
-            setSelectedItem(null);
-        } else {
-            setAddedItems([...addedItems, itemId]);
-            const selectedItem = items.find((item) => item.id === itemId);
-            setSelectedItem(selectedItem);
-        }
-    };
 
     const filteredItems = items.filter(
         (item) =>

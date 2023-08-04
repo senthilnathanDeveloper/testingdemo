@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Header from './Components/Header/Header';
 import MainContent from './Components/MainContent/MainContent';
@@ -9,10 +9,37 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showOffCanvas, setShowOffCanvas] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [items, setItems] = useState([]);
 
 
   const handleClose = () => setShowOffCanvas(false);
   const handleShow = () => setShowOffCanvas(true);
+
+  const toggleAddedStatus = (itemId) => {
+    if (addedItems.includes(itemId)) {
+      setAddedItems(addedItems.filter((id) => id !== itemId));
+      setSelectedItems(selectedItems.filter((item) => item.id !== itemId));
+    } else {
+      setAddedItems([...addedItems, itemId]);
+      const selectedItem = items.find((item) => item.id === itemId);
+      setSelectedItem(selectedItem);
+      setSelectedItems([...selectedItems, selectedItem]);
+    }
+  };
+
+  const handleDelete = (itemId) => {
+    setSelectedItems(selectedItems.filter((item) => item.id !== itemId));
+    setAddedItems(addedItems.filter((id) => id !== itemId));
+  };
+
+
+
+  useEffect(() => {
+    fetch("https://fakestoreapi.com/products/")
+      .then((res) => res.json())
+      .then((data) => setItems(data));
+  }, []);
 
 
   return (
@@ -28,13 +55,17 @@ function App() {
         setAddedItems={setAddedItems}
         searchQuery={searchQuery}
         setSelectedItem={setSelectedItem}
+        toggleAddedStatus={toggleAddedStatus}
+        items={items}
       />
 
       <AddedItems
         addedItems={addedItems}
         showOffCanvas={showOffCanvas}
         handleClose={handleClose}
-        selectedItem={selectedItem} 
+        selectedItem={selectedItem}
+        selectedItems={selectedItems}
+        handleDelete={handleDelete}
       />
     </div>
   );
