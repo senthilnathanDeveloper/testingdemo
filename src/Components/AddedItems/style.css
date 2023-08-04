@@ -1,0 +1,47 @@
+.product-image {
+    cursor: pointer;
+    transition: transform .2s;
+}
+
+.product-image:hover {
+    transform: scale(1.5);
+}
+
+.cancel {
+    width: 20px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel:hover {
+    background: red;
+    color: white;
+}
+
+.add {
+    width: 20px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    cursor: pointer;
+    background: blue;
+    color: white;
+}
+
+.clear {
+    width: 20px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    cursor: pointer;
+    background: red;
+    color: white;
+}
