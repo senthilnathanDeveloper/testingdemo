@@ -11,6 +11,8 @@ function App() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
   const [items, setItems] = useState([]);
+  const [itemQuantities, setItemQuantities] = useState({});
+
 
 
   const handleClose = () => setShowOffCanvas(false);
@@ -31,6 +33,20 @@ function App() {
   const handleDelete = (itemId) => {
     setSelectedItems(selectedItems.filter((item) => item.id !== itemId));
     setAddedItems(addedItems.filter((id) => id !== itemId));
+  };
+
+  const handleIncrementQuantity = (itemId) => {
+    setItemQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [itemId]: (prevQuantities[itemId] || 0) + 1,
+    }));
+  };
+
+  const handleDecrementQuantity = (itemId) => {
+    setItemQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [itemId]: Math.max((prevQuantities[itemId] || 0) - 1, 0),
+    }));
   };
 
 
@@ -66,6 +82,9 @@ function App() {
         selectedItem={selectedItem}
         selectedItems={selectedItems}
         handleDelete={handleDelete}
+        handleIncrementQuantity={handleIncrementQuantity}
+        handleDecrementQuantity={handleDecrementQuantity}
+        itemQuantities={itemQuantities}
       />
     </div>
   );
