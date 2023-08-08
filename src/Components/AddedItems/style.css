@@ -45,3 +45,25 @@
     background: red;
     color: white;
 }
+
+.bi-trash-fill {
+    cursor: pointer;
+}
+
+.bi-trash-fill:hover {
+    fill: red;
+}
+
+.printbutton {
+    background-color: #4a154b;
+    font-size: 1.2rem;
+    color: #fff;
+    width: 100%;
+    border: none;
+    border-radius: 4px;
+    height: 5vh;
+}
+
+.printbutton:hover {
+    background-color: #df6404;
+}

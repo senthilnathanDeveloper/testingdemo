@@ -19,13 +19,28 @@ function App() {
   const handleShow = () => setShowOffCanvas(true);
 
   const toggleAddedStatus = (itemId) => {
-    if (addedItems.includes(itemId)) {
-      setAddedItems(addedItems.filter((id) => id !== itemId));
-      setSelectedItems(selectedItems.filter((item) => item.id !== itemId));
+    const itemIndex = addedItems.indexOf(itemId);
+
+    if (itemIndex !== -1) {
+      // Item is already in the cart, increase the quantity
+      setItemQuantities((prevQuantities) => ({
+        ...prevQuantities,
+        [itemId]: (prevQuantities[itemId] || 0) + 1,
+      }));
     } else {
+      // Item is not in the cart, add it with quantity 1
       setAddedItems([...addedItems, itemId]);
       const selectedItem = items.find((item) => item.id === itemId);
       setSelectedItem(selectedItem);
+
+      // Check if the item is not already in itemQuantities, then initialize it to 1
+      if (!itemQuantities[itemId]) {
+        setItemQuantities((prevQuantities) => ({
+          ...prevQuantities,
+          [itemId]: 1,
+        }));
+      }
+
       setSelectedItems([...selectedItems, selectedItem]);
     }
   };
@@ -45,7 +60,7 @@ function App() {
   const handleDecrementQuantity = (itemId) => {
     setItemQuantities((prevQuantities) => ({
       ...prevQuantities,
-      [itemId]: Math.max((prevQuantities[itemId] || 0) - 1, 0),
+      [itemId]: Math.max((prevQuantities[itemId] || 1) - 1, 1),
     }));
   };
 
@@ -73,6 +88,7 @@ function App() {
         setSelectedItem={setSelectedItem}
         toggleAddedStatus={toggleAddedStatus}
         items={items}
+        itemQuantities={itemQuantities}
       />
 
       <AddedItems
@@ -85,6 +101,7 @@ function App() {
         handleIncrementQuantity={handleIncrementQuantity}
         handleDecrementQuantity={handleDecrementQuantity}
         itemQuantities={itemQuantities}
+        setItemQuantities={setItemQuantities}
       />
     </div>
   );

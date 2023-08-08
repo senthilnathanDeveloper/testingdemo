@@ -1,27 +1,32 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Offcanvas } from 'react-bootstrap'
+import {  Offcanvas } from 'react-bootstrap'
 import './style.css'
 
-const AddedItems = ({ addedItems, showOffCanvas, handleClose, selectedItems, handleDelete, handleIncrementQuantity, itemQuantities, handleDecrementQuantity }) => {
+const AddedItems = ({ addedItems, showOffCanvas, handleClose, selectedItems, handleDelete, handleIncrementQuantity, itemQuantities, handleDecrementQuantity, setItemQuantities }) => {
 
-    const handleProductDelete = (itemId) => {
-        handleDelete(itemId);
-    };
-    const [totalAmount, setTotalAmount] = useState(0); // Initialize the totalAmount state
+  const handleProductDelete = (itemId) => {
+    handleDelete(itemId);
+    setItemQuantities((prevQuantities) => {
+      const updatedQuantities = { ...prevQuantities };
+      delete updatedQuantities[itemId];
+      return updatedQuantities;
+    });
+  };
+  const [totalAmount, setTotalAmount] = useState(0); // Initialize the totalAmount state
 
-    useEffect(() => {
-        // Calculate total amount whenever selectedItems or itemQuantities change
-        const newTotalAmount = selectedItems.reduce((total, item) => {
-            const quantity = itemQuantities[item.id] || 1;
-            return total + item.price * quantity;
-        }, 0);
+  useEffect(() => {
+    // Calculate total amount whenever selectedItems or itemQuantities change
+    const newTotalAmount = selectedItems.reduce((total, item) => {
+      const quantity = itemQuantities[item.id] || 1;
+      return total + item.price * quantity;
+    }, 0);
 
-        setTotalAmount(newTotalAmount);
-    }, [selectedItems, itemQuantities]);
+    setTotalAmount(newTotalAmount);
+  }, [selectedItems, itemQuantities]);
 
-    const handlePrint = () => {
-        const printWindow = window.open('', '_blank');
-        printWindow.document.write(`
+  const handlePrint = () => {
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
           <html>
           <head>
             <title>Print</title>
@@ -42,8 +47,8 @@ const AddedItems = ({ addedItems, showOffCanvas, handleClose, selectedItems, han
           <body>
             <div class="print-content">
               ${selectedItems
-                .map(
-                    (item) => `
+        .map(
+          (item) => `
                   <div>
                   <img src="${item.image}" alt="${item.title}" style="max-width: 100px;">
                   <h3>${item.title}</h3>
@@ -52,66 +57,69 @@ const AddedItems = ({ addedItems, showOffCanvas, handleClose, selectedItems, han
                   <hr>
                 </div>
               `
-                )
-                .join('')}
+        )
+        .join('')}
             <div class="total-amount">Total Amount: $${totalAmount.toFixed(2)}</div>
           </div>
         </body>
         </html>
       `);
-        printWindow.document.close();
-        printWindow.print();
-    };
+    printWindow.document.close();
+    printWindow.print();
+  };
 
-    const isAnyItemSelected = selectedItems.length > 0;
+  const isAnyItemSelected = selectedItems.length > 0;
 
-    return (
-        <>
-            <Offcanvas placement='end' show={showOffCanvas} onHide={handleClose}>
-                <Offcanvas.Header closeButton>
-                    <Offcanvas.Title>Added {addedItems.length} Items</Offcanvas.Title>
-                </Offcanvas.Header>
-                <Offcanvas.Body>
-                    <div id="print-section">
-                        {selectedItems.length > 0 ? (
-                            selectedItems.map((item) => (
-                                <div key={item.id} className='mt-5'>
-                                    <div className='d-flex align-items-center justify-content-between'>
+  return (
+    <>
+      <Offcanvas placement='end' show={showOffCanvas} onHide={handleClose}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Added {addedItems.length} Items</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <div id="print-section">
+            {selectedItems.length > 0 ? (
+              selectedItems.map((item) => (
+                <div key={item.id} className='mt-5'>
+                  <div className='d-flex align-items-center justify-content-between'>
 
-                                        <img src={item.image} style={{ width: "10%" }} className='product-image' alt='' />
-                                        <span className='cancel' onClick={() => handleProductDelete(item.id)}  >X</span>
-                                    </div>
-                                    <h6 className='mt-3'>{item.title}</h6>
+                    <img src={item.image} style={{ width: "10%" }} className='product-image' alt='' />
 
-                                    <p>Price: {item.price}</p>
-                                    <div className='d-flex align-items-center justify-content-end gap-3'>
-                                        <span className='add' onClick={() => handleIncrementQuantity(item.id)}>+</span>
-                                        <span>{itemQuantities[item.id] || 1}</span>
-                                        <span className='clear' onClick={() => handleDecrementQuantity(item.id)}>-</span>
-                                    </div>
-                                    <hr />
-                                </div>
-                            ))
-                        ) : (
-                            <p className="d-flex align-items-center justify-content-center h-100">No item selected</p>
-                        )}
-                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" onClick={() => handleProductDelete(item.id)} width="20" height="20" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
+                      <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                    </svg>
+                  </div>
+                  <h6 className='mt-3'>{item.title}</h6>
 
-                    {isAnyItemSelected && (
-                        <>
-                            <div className='mt-5'>Total Amount: {totalAmount.toFixed(2)}</div>
+                  <p>Price: {item.price}</p>
+                  <div className='d-flex align-items-center justify-content-end gap-3'>
+                    <span className='add' onClick={() => handleIncrementQuantity(item.id)}>+</span>
+                    <span>{itemQuantities[item.id] || 1}</span>
+                    <span className='clear' onClick={() => handleDecrementQuantity(item.id)}>-</span>
+                  </div>
+                  <hr />
+                </div>
+              ))
+            ) : (
+              <p className="d-flex align-items-center justify-content-center h-100">No item selected</p>
+            )}
+          </div>
 
-                            <div className='mt-5'>
-                                <Button variant='info w-100' onClick={handlePrint}>
-                                    Print
-                                </Button>
-                            </div>
-                        </>
-                    )}
-                </Offcanvas.Body>
-            </Offcanvas>
-        </>
-    )
+          {isAnyItemSelected && (
+            <>
+              <div className='mt-5'>Total Amount: {totalAmount.toFixed(2)}</div>
+
+              <div className='mt-5'>
+                <button variant='info w-100' className='printbutton' onClick={handlePrint}>
+                  Print
+                </button>
+              </div>
+            </>
+          )}
+        </Offcanvas.Body>
+      </Offcanvas>
+    </>
+  )
 }
 
 export default AddedItems
