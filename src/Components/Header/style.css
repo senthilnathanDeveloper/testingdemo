@@ -1,13 +1,9 @@
 .addedlength {
     position: relative;
     bottom: 5px;
-    background: red;
+    width: 25px; 
+    height: max-content; 
     border-radius: 10px;
-    width: 25px;
-    height: max-content;
+    background: red;
     color: white;
-}
-
-.bi-cart-check {
-    cursor: pointer;
 }
