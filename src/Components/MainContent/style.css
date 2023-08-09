@@ -14,10 +14,14 @@ p {
 .addToCartBttn {
     background-color: transparent;
     color: black;
-  }
-  
-  .addToCartBttn:hover {
+}
+
+.addToCartBttn:hover {
     background-color: rgb(19, 19, 19);
     color: #fff;
     border: none;
-  }
+}
+
+.text-color {
+    color: #4a154b;
+}
