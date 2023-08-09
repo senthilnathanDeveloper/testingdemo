@@ -17,7 +17,7 @@ const MainContent = ({ addedItems, searchQuery, toggleAddedStatus, items, itemQu
                 {filteredItems.map((item, index) => {
                     return(
                         <>       
-                    <Col key={index} lg='4' className='mt-5'>
+                    <Col key={index} lg='4' md='6' className='mt-5'>
                         <Card className='h-100 p-3'>
                             <Card.Img variant='top' src={item.image} className='card-img-top w-50 p-3  mx-auto d-block' />
                             <Card.Body className='flex-fill'>
