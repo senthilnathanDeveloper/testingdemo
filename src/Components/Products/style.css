@@ -1,0 +1,19 @@
+.product-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.singleproduct-image {
+    width: 15%;
+    transition: transform .2s;
+}
+
+.star-icon {
+    color: orange;
+}
