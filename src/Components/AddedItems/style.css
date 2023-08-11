@@ -1,5 +1,6 @@
 .product-image {
     transition: transform .2s;
+    width: 10%;
 }
 
 .product-image:hover {

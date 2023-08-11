@@ -1,8 +1,8 @@
-.card {
+.content-card {
     transition: 0.3s;
 }
 
-.card:hover {
+.content-card:hover {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     transform: scale(1.01);
 }

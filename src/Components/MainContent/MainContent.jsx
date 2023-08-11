@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
+import { Link } from 'react-router-dom';
 import './style.css'
 
 const MainContent = ({ addedItems, searchQuery, toggleAddedStatus, items, itemQuantities }) => {
@@ -32,11 +33,13 @@ const MainContent = ({ addedItems, searchQuery, toggleAddedStatus, items, itemQu
                     const showLess = showLessMap[itemId];
                     return (
                         <>
-                            <Col key={index} lg='4' md='6' className='mt-5'>
-                                <Card className='h-100 p-3'>
+                            <Col key={item.id} lg='4' md='6' className='mt-5'>
+                                <Card className='h-100 p-3 content-card'>
                                     <Card.Img variant='top' src={item.image} className='card-img-top w-50 p-3  mx-auto d-block' />
                                     <Card.Body className='flex-fill'>
-                                        <Card.Title className="text-decoration-underline card-title h5 text-start">{item.category}</Card.Title>
+                                        <Link to={`/products/${item.id}`}>
+                                            <Card.Title className="text-decoration-underline card-title h5 text-start text-dark">{item.category}</Card.Title>
+                                        </Link>
                                         <Card.Text>
                                             <p className='card-text text-start'>
                                                 <strong >{item.title}</strong>

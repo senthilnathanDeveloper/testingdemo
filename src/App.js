@@ -3,6 +3,8 @@ import './App.css';
 import Header from './Components/Header/Header';
 import MainContent from './Components/MainContent/MainContent';
 import AddedItems from './Components/AddedItems/AddedItems';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Products from './Components/Products/Products';
 
 function App() {
   const [addedItems, setAddedItems] = useState([]);
@@ -74,36 +76,40 @@ function App() {
 
 
   return (
-    <div className="App">
-      <Header
-        addedItems={addedItems}
-        setSearchQuery={setSearchQuery}
-        value={searchQuery}
-        handleShow={handleShow}
-      />
-      <MainContent
-        addedItems={addedItems}
-        setAddedItems={setAddedItems}
-        searchQuery={searchQuery}
-        setSelectedItem={setSelectedItem}
-        toggleAddedStatus={toggleAddedStatus}
-        items={items}
-        itemQuantities={itemQuantities}
-      />
-
-      <AddedItems
-        addedItems={addedItems}
-        showOffCanvas={showOffCanvas}
-        handleClose={handleClose}
-        selectedItem={selectedItem}
-        selectedItems={selectedItems}
-        handleDelete={handleDelete}
-        handleIncrementQuantity={handleIncrementQuantity}
-        handleDecrementQuantity={handleDecrementQuantity}
-        itemQuantities={itemQuantities}
-        setItemQuantities={setItemQuantities}
-      />
-    </div>
+    <Router>
+      <div className="App">
+        <Header
+          addedItems={addedItems}
+          setSearchQuery={setSearchQuery}
+          value={searchQuery}
+          handleShow={handleShow}
+        />
+        <Routes>
+          <Route path="/" element={<MainContent
+            addedItems={addedItems}
+            setAddedItems={setAddedItems}
+            searchQuery={searchQuery}
+            setSelectedItem={setSelectedItem}
+            toggleAddedStatus={toggleAddedStatus}
+            items={items}
+            itemQuantities={itemQuantities}
+          />} />
+          <Route path="/products/:productId" element={<Products items={items} />} />
+        </Routes>
+        <AddedItems
+          addedItems={addedItems}
+          showOffCanvas={showOffCanvas}
+          handleClose={handleClose}
+          selectedItem={selectedItem}
+          selectedItems={selectedItems}
+          handleDelete={handleDelete}
+          handleIncrementQuantity={handleIncrementQuantity}
+          handleDecrementQuantity={handleDecrementQuantity}
+          itemQuantities={itemQuantities}
+          setItemQuantities={setItemQuantities}
+        />
+      </div>
+    </Router>
   );
 }
 
