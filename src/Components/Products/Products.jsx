@@ -105,6 +105,7 @@ const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
         <Col lg='2' className='mt-4'>
           <Card className='p-4'>
             <span className='fs-4'>${product.price}</span>
+            <span className='mt-3 product-description'>{product.category}</span>
             <Button className='addToCartBttn rounded-pill mw-100 px-2 py-2 border border-1 border-dark mt-4' onClick={() => toggleAddedStatus(product.id)}>
               Add to cart {itemQuantities[product.id] > 0 && `(${itemQuantities[product.id]})`}
             </Button>
