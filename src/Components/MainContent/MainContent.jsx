@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import './style.css'
 
 const MainContent = ({ addedItems, searchQuery, toggleAddedStatus, items, itemQuantities }) => {
-    const [showLessMap, setShowLessMap] = useState({});
 
 
 
@@ -16,21 +15,11 @@ const MainContent = ({ addedItems, searchQuery, toggleAddedStatus, items, itemQu
     );
 
 
-
-
-    const changeShow = (itemId) => {
-        setShowLessMap((prevMap) => ({
-            ...prevMap,
-            [itemId]: !prevMap[itemId],
-        }));
-    };
-
     return (
         <>
             <Row className='row d-flex m-0'>
                 {filteredItems.map((item, index) => {
-                    const itemId = item.id;
-                    const showLess = showLessMap[itemId];
+                   
                     return (
                         <>
                             <Col key={item.id} lg='4' md='6' className='mt-5'>
