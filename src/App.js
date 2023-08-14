@@ -17,8 +17,14 @@ function App() {
 
 
 
-  const handleClose = () => setShowOffCanvas(false);
-  const handleShow = () => setShowOffCanvas(true);
+  const handleClose = () => {
+    setShowOffCanvas(false);
+  }
+
+  const handleShow = () => {
+    setShowOffCanvas(true);
+
+  }
 
   const toggleAddedStatus = (itemId) => {
     const itemIndex = addedItems.indexOf(itemId);
@@ -66,6 +72,9 @@ function App() {
     }));
   };
 
+  const handleAddToCart = (product) => {
+    setSelectedItems((prevSelectedItems) => [...prevSelectedItems, product]);
+  };
 
 
   useEffect(() => {
@@ -94,7 +103,16 @@ function App() {
             items={items}
             itemQuantities={itemQuantities}
           />} />
-          <Route path="/products/:productId" element={<Products items={items} />} />
+          <Route path="/products/:productId" element={<Products items={items}
+            itemQuantities={itemQuantities}
+            handleAddToCart={handleAddToCart}
+            selectedItems={selectedItems}
+            handleIncrementQuantity={handleIncrementQuantity}
+            addedItems={addedItems}
+            setAddedItems={setAddedItems}
+            setItemQuantities={setItemQuantities}
+            toggleAddedStatus={toggleAddedStatus}
+          />} />
         </Routes>
         <AddedItems
           addedItems={addedItems}

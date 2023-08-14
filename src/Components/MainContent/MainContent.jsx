@@ -45,9 +45,8 @@ const MainContent = ({ addedItems, searchQuery, toggleAddedStatus, items, itemQu
                                                 <strong >{item.title}</strong>
                                             </p>
                                         </Card.Text>
-                                        <p className='card-text text-start' onClick={() => changeShow(itemId)}>
-                                            {showLess ? item.description.slice(0, 100) : item.description}
-                                            <span className='position-relative ms-3 text-color fw-bold' role='button'> {showLess ? "Show more" : "Show Less"}</span>
+                                        <p className='card-text text-start'>
+                                            {item.description}
                                         </p>
                                         <div className='row'>
                                             <div className='col-lg-12 d-flex align-items-center justify-content-between'>
