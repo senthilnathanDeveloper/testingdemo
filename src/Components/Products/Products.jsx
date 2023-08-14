@@ -1,15 +1,26 @@
-import React from 'react'
-import { Button, Card, Col, OverlayTrigger, Row, Spinner, Tooltip } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react'
+import { Button, Card, Col, FloatingLabel, Form, OverlayTrigger, Row, Spinner, Tooltip } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { AiFillStar } from "react-icons/ai";
+import { useForm } from 'react-hook-form';
 import './style.css'
 
 const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
   const { productId } = useParams();
   const product = items.find(item => item.id === parseInt(productId));
+  const [comments, setComments] = useState('');
+  const [storedComments, setStoredComments] = useState([]);
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
 
 
+  useEffect(() => {
+    const storedCommentsString = localStorage.getItem(`comments-${productId}`);
+    if (storedCommentsString) {
+      const parsedComments = JSON.parse(storedCommentsString);
+      setStoredComments(parsedComments);
+    }
+  }, [productId]);
 
   if (!product) {
     return (
@@ -23,7 +34,23 @@ const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
     )
   }
 
+
   const apiRating = product.rating.rate;
+  const handleCommentChange = event => {
+    const value = event.target.value;
+    setComments(value);
+    setValue('comment', value);
+    
+  };
+
+  const handleCommentSubmit = data => {
+    const newComments = [...storedComments, data.comment];
+    localStorage.setItem(`comments-${productId}`, JSON.stringify(newComments));
+    setStoredComments(newComments);
+    setComments(''); // Clear the comment field after submission
+  };
+
+
 
 
   return (
@@ -62,6 +89,18 @@ const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
           <ul>
             <li className='fs-6 product-description '>{product.description}</li>
           </ul>
+          <hr />
+          <div className='mt-4'>
+            <h4>Customer comments</h4>
+            {storedComments.map((comment, index) => {
+              return (
+                <>
+                  <p key={index}>{comment}</p>
+                </>
+              )
+            }
+            )}
+          </div>
         </Col>
         <Col lg='2' className='mt-4'>
           <Card className='p-4'>
@@ -70,6 +109,31 @@ const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
               Add to cart {itemQuantities[product.id] > 0 && `(${itemQuantities[product.id]})`}
             </Button>
           </Card>
+
+          <div className='mt-5'>
+            <form onSubmit={handleSubmit(handleCommentSubmit)}>
+              <FloatingLabel controlId="floatingTextarea2" label="Comments">
+                <Form.Control
+                  as="textarea"
+                  placeholder="Leave a comment here"
+                  style={{ height: '100px' }}
+                  value={comments}
+                  {...register('comment', { 
+                    required: 'Please enter a comment.',
+                    minLength: { value: 5, message: 'Comment must be at least 5 characters.' },
+                    maxLength: { value: 100, message: 'Comment cannot exceed 100 characters.' },
+                  })}
+                  isInvalid={!!errors.comment}
+                  onChange={handleCommentChange}
+
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.comment && errors.comment.message}
+                </Form.Control.Feedback>
+              </FloatingLabel>
+              <Button className='mt-4 w-100 rounded-pill' type='submit'  >Submit</Button>
+            </form>
+          </div>
         </Col>
       </Row>
     </>
