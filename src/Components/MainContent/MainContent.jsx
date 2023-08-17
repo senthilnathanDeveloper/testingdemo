@@ -19,6 +19,13 @@ const MainContent = ({ addedItems, searchQuery, toggleAddedStatus, items, itemQu
         setHeartStatus(storedHeartStatus);
     }, []);
 
+    const handleClick = (itemId) => {
+        const updatedHeartStatus = { ...heartStatus };
+        updatedHeartStatus[itemId] = !heartStatus[itemId];
+        setHeartStatus(updatedHeartStatus);
+        localStorage.setItem('heartStatus', JSON.stringify(updatedHeartStatus))
+    }
+
     return (
         <>
             <Row className='row d-flex m-0'>
@@ -33,22 +40,12 @@ const MainContent = ({ addedItems, searchQuery, toggleAddedStatus, items, itemQu
                                         {heartStatus[item.id] ? (
                                             <AiFillHeart
                                                 className={`heart-icon d-flex align-items-center justify-content-end filled true`}
-                                                onClick={() => {
-                                                    const updatedHeartStatus = { ...heartStatus };
-                                                    updatedHeartStatus[item.id] = !heartStatus[item.id];
-                                                    setHeartStatus(updatedHeartStatus);
-                                                    localStorage.setItem('heartStatus', JSON.stringify(updatedHeartStatus));
-                                                }}
+                                                onClick={() => handleClick(item.id)}
                                             />
                                         ) : (
                                             <AiOutlineHeart
                                                 className={`heart-icon d-flex align-items-center justify-content-end outlined`}
-                                                onClick={() => {
-                                                    const updatedHeartStatus = { ...heartStatus };
-                                                    updatedHeartStatus[item.id] = !heartStatus[item.id];
-                                                    setHeartStatus(updatedHeartStatus);
-                                                    localStorage.setItem('heartStatus', JSON.stringify(updatedHeartStatus));
-                                                }}
+                                                onClick={() => handleClick(item.id)}
                                             />
                                         )}
                                     </div>
