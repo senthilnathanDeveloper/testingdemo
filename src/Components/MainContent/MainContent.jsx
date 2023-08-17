@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import './style.css'
 
 const MainContent = ({ addedItems, searchQuery, toggleAddedStatus, items, itemQuantities }) => {
 
-
+    const [heartStatus, setHeartStatus] = useState({});
 
 
     const filteredItems = items.filter(
@@ -13,17 +14,44 @@ const MainContent = ({ addedItems, searchQuery, toggleAddedStatus, items, itemQu
             item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             item.category.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
+    useEffect(() => {
+        const storedHeartStatus = JSON.parse(localStorage.getItem('heartStatus')) || {};
+        setHeartStatus(storedHeartStatus);
+    }, []);
 
     return (
         <>
             <Row className='row d-flex m-0'>
                 {filteredItems.map((item, index) => {
-                   
+
                     return (
                         <>
+
                             <Col key={item.id} lg='4' md='6' className='mt-5'>
                                 <Card className='h-100 p-3 content-card'>
+                                    <div className='d-flex align-items-center justify-content-end' role='button'>
+                                        {heartStatus[item.id] ? (
+                                            <AiFillHeart
+                                                className={`heart-icon d-flex align-items-center justify-content-end filled true`}
+                                                onClick={() => {
+                                                    const updatedHeartStatus = { ...heartStatus };
+                                                    updatedHeartStatus[item.id] = !heartStatus[item.id];
+                                                    setHeartStatus(updatedHeartStatus);
+                                                    localStorage.setItem('heartStatus', JSON.stringify(updatedHeartStatus));
+                                                }}
+                                            />
+                                        ) : (
+                                            <AiOutlineHeart
+                                                className={`heart-icon d-flex align-items-center justify-content-end outlined`}
+                                                onClick={() => {
+                                                    const updatedHeartStatus = { ...heartStatus };
+                                                    updatedHeartStatus[item.id] = !heartStatus[item.id];
+                                                    setHeartStatus(updatedHeartStatus);
+                                                    localStorage.setItem('heartStatus', JSON.stringify(updatedHeartStatus));
+                                                }}
+                                            />
+                                        )}
+                                    </div>
                                     <Card.Img variant='top' src={item.image} className='card-img-top w-50 p-3  mx-auto d-block' />
                                     <Card.Body className='flex-fill'>
                                         <Link to={`/products/${item.id}`}>

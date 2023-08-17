@@ -21,3 +21,17 @@ p {
     color: #fff;
     border: none;
 }
+
+.heart-icon {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.heart-icon.filled.true {
+    fill: red;
+}
+
+
+.heart-icon.outlined.true {
+    stroke: red;
+}
