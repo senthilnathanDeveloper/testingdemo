@@ -5,11 +5,13 @@ import './style.css'
 
 const Header = ({ addedItems, setSearchQuery, value, handleShow }) => {
 
+
+
     return (
         <>
             <Navbar expand="lg" className="bg-body-tertiary">
                 <Container fluid>
-                    <Navbar.Brand href="#">Shopping</Navbar.Brand>
+                    <Navbar.Brand>Shopping</Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav
