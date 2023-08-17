@@ -44,7 +44,6 @@ const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
   }
 
 
-  const apiRating = product.rating.rate;
   const handleCommentChange = event => {
     const value = event.target.value;
     setComments(value);
