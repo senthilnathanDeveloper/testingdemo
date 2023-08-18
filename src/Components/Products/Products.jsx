@@ -53,7 +53,6 @@ const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
 
   const handleCommentSubmit = data => {
     if (userRating === 0) {
-
       return;
     }
     const newComments = [...storedComments, data.comment];
@@ -92,10 +91,7 @@ const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
           {[1, 2, 3, 4, 5].map((_, starIndex) => (
             <span
               key={starIndex}
-              className='star-icon'
-              style={{
-                color: starIndex < overallRating ? '#FFD700' : '#ccc',
-              }}
+              className={`${starIndex < overallRating ? "starfill-icon" : "staroutline-icon"}`}
             >
               <AiFillStar />
             </span>
@@ -118,13 +114,12 @@ const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
               <FloatingLabel controlId="floatingTextarea2" label="Comments">
                 <Form.Control
                   as="textarea"
+                  className='h-100'
                   placeholder="Leave a comment here"
-                  style={{ height: '100px' }}
                   value={comments}
                   {...register('comment', {
                     required: 'Please enter a comment.',
                     minLength: { value: 5, message: 'Comment must be at least 5 characters.' },
-                    // maxLength: { value: 100, message: 'Comment cannot exceed 100 characters.' },
                   })}
                   isInvalid={!!errors.comment}
                   onChange={handleCommentChange}
@@ -140,14 +135,10 @@ const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
                 <span>
                   {[1, 2, 3, 4, 5].map((starValue) => (
                     <span
+                      role='button'
                       key={starValue}
-                      className='star-icon'
+                      className={`${starValue <= userRating ? "starfill-icon" : "staroutline-icon"}`}
                       onClick={() => setUserRating(starValue)}
-                      style={{
-                        cursor: 'pointer',
-                        color: starValue <= userRating ? '#FFD700' : '#ccc',
-                      }}
-
                     >
                       {starValue <= userRating ? <AiFillStar /> : <AiOutlineStar />}
                     </span>
@@ -170,10 +161,7 @@ const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
                     {Array.from({ length: 5 }).map((_, starIndex) => (
                       <span
                         key={starIndex}
-                        className='star-icon'
-                        style={{
-                          color: starIndex < storedRatings[index] ? '#FFD700' : '#ccc',
-                        }}
+                        className={`${starIndex < storedRatings[index] ? "starfill-icon" : "staroutline-icon"}`}
                       >
                         <AiFillStar />
                       </span>
