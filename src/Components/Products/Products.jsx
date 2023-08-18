@@ -88,7 +88,7 @@ const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
         <Col lg='6' className='mt-4'>
           <div> <h3>{product.title}</h3></div>
 
-          {[1, 2, 3, 4, 5].map((_, starIndex) => (
+          {storedRatings.length > 0 && [1, 2, 3, 4, 5].map((_, starIndex) => (
             <span
               key={starIndex}
               className={`${starIndex < overallRating ? "starfill-icon" : "staroutline-icon"}`}
@@ -97,12 +97,14 @@ const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
             </span>
           ))}
 
-          <OverlayTrigger
-            placement='auto'
-            overlay={<Tooltip id={`tooltip-${overallRating}`}>Rating: {overallRating.toFixed(1)}</Tooltip>}
-          >
-            <span className='rating-value fs-5'>{`${overallRating.toFixed(1)} out of 5 `}</span>
-          </OverlayTrigger>
+          {storedRatings.length > 0 && (
+            <OverlayTrigger
+              placement='auto'
+              overlay={<Tooltip id={`tooltip-${overallRating}`}>Rating: {overallRating.toFixed(1)}</Tooltip>}
+            >
+              <span className='rating-value fs-5'>{`${overallRating.toFixed(1)} out of 5 `}</span>
+            </OverlayTrigger>
+          )}
           <hr />
           <ul>
             <li className='fs-6 product-description '>{product.description}</li>
