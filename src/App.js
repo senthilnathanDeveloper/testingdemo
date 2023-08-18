@@ -82,7 +82,7 @@ function App() {
       .then((res) => res.json())
       .then((data) => setItems(data));
   }, []);
-
+  const searchResults = items.filter(item => item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||item.title.toLowerCase().includes(searchQuery.toLowerCase()) );
 
   return (
     <Router>
@@ -92,6 +92,7 @@ function App() {
           setSearchQuery={setSearchQuery}
           value={searchQuery}
           handleShow={handleShow}
+          searchResults={searchResults}
         />
         <Routes>
           <Route path="/" element={<MainContent
