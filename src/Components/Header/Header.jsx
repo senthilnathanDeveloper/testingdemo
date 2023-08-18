@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Form, Nav, Navbar } from 'react-bootstrap';
+import { Container, Form, ListGroup, Nav, Navbar } from 'react-bootstrap';
 import './style.css'
 import { Link } from 'react-router-dom';
 
@@ -31,20 +31,25 @@ const Header = ({ addedItems, setSearchQuery, value, handleShow, searchResults }
                                 value={value}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
-                            {value && searchResults.length > 0 && (
-                                <ul className="search-results list-group position-absolute">
-                                    {searchResults.map(result => (
-                                        <Link to={`/products/${result.id}`} onClick={handleSearchLinkClick} className='text-decoration-none'>
-                                            <li key={result.id} className="d-flex align-items-center p-4 search-result-item list-group-item" role='button'>
-                                                <div className="d-flex align-items-center">
-                                                    <img src={result.image} alt={result.title} className="me-3" />
-                                                    <span className="fs-6 d-flex align-items-center">{result.category || result.title}</span>
-                                                </div>
-                                            </li>
-                                        </Link>
-                                    ))}
-                                </ul>
+                            {value && (
+                                <ListGroup className="search-results list-group position-absolute">
+                                    {searchResults.length > 0 ? (
+                                        searchResults.map(result => (
+                                            <Link to={`/products/${result.id}`} onClick={handleSearchLinkClick} className='text-decoration-none'>
+                                                <ListGroup.Item key={result.id} className="d-flex align-items-center p-4 search-result-item list-group-item" role='button'>
+                                                    <div className="d-flex align-items-center">
+                                                        <img src={result.image} alt={result.title} className="me-3" />
+                                                        <span className="fs-6 d-flex align-items-center">{result.category || result.title}</span>
+                                                    </div>
+                                                </ListGroup.Item>
+                                            </Link>
+                                        ))
+                                    ) : (
+                                        <ListGroup.Item className='d-flex align-items-center justify-content-center'>No data available</ListGroup.Item>
+                                    )}
+                                </ListGroup>
                             )}
+
 
                             <svg xmlns="http://www.w3.org/2000/svg" role='button' width="30" height="30" fill="currentColor" className="bi bi-cart-check" viewBox="0 0 16 16" onClick={handleShow}>
                                 <path d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z" />
