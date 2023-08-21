@@ -4,8 +4,9 @@ import { useParams } from 'react-router-dom';
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useForm } from 'react-hook-form';
 import './style.css'
+import ImageModal from './ImageModal';
 
-const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
+const Products = ({ items, itemQuantities, toggleAddedStatus, }) => {
   const { productId } = useParams();
   const product = items.find(item => item.id === parseInt(productId));
   const [comments, setComments] = useState('');
@@ -13,7 +14,18 @@ const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
   const [storedRatings, setStoredRatings] = useState([]);
   const [userRating, setUserRating] = useState(0);
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+  const [showModal, setShowModal] = useState(false);
+  const [zoomedImageSrc, setZoomedImageSrc] = useState('');
 
+  const handleImageClick = () => {
+    setZoomedImageSrc(product.image);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setZoomedImageSrc('');
+  };
 
 
   useEffect(() => {
@@ -81,8 +93,8 @@ const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
     <>
       <Row className='row m-0'>
         <Col lg='3' className='mt-3' >
-          <div className='image-container'>
-            <img src={product.image} className='w-100 h-auto' alt='' />
+          <div className='image-container' role='button'>
+            <img src={product.image} onClick={handleImageClick} className='w-100 h-auto' alt='' />
           </div>
         </Col>
         <Col lg='6' className='mt-4'>
@@ -191,6 +203,11 @@ const Products = ({ items, itemQuantities, toggleAddedStatus }) => {
 
         </Col>
       </Row>
+      <ImageModal
+        show={showModal}
+        handleClose={handleCloseModal}
+        imageSrc={zoomedImageSrc}
+      />
     </>
   )
 }
