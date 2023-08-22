@@ -12,7 +12,7 @@ const Header = ({ addedItems, setSearchQuery, value, handleShow, searchResults }
 
     return (
         <>
-            <Navbar expand="lg" className="bg-body-tertiary">
+            <Navbar expand="lg" className="bg-body-tertiary header-section">
                 <Container fluid>
                     <Navbar.Brand>Shopping</Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />

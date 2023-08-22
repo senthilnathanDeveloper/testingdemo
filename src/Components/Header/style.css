@@ -29,6 +29,10 @@
   width: 40px;
   height: 40px;
 }
-
+.header-section{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 
   

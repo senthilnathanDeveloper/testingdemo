@@ -159,7 +159,7 @@ const Products = ({ items, itemQuantities, toggleAddedStatus, }) => {
           </ul>
           <hr />
 
-          <div className='mt-5'>
+          <div className='mt-3'>
             <form onSubmit={handleSubmit(handleCommentSubmit)}>
               <div>
                 <h4>Add a comments</h4>
@@ -231,12 +231,12 @@ const Products = ({ items, itemQuantities, toggleAddedStatus, }) => {
                 </span>
                 {comment.comment.length > 100 && !expandedComments.includes(index) ? (
                   <>
-                    <span>{`${comment.comment.slice(0, 100)}...`}</span>
+                    <span> {`${comment.comment.charAt(0).toUpperCase() + comment.comment.slice(1, 100)}...`}</span>
                     <span onClick={() => handleExpandComment(index)} role='button' className='expand'>Show More</span>
                   </>
                 ) : (
                   <>
-                    <span>{comment.comment}</span>
+                    <span>{comment.comment.charAt(0).toUpperCase() + comment.comment.slice(1)}</span>
                     {comment.comment.length > 100 && (
                       <span onClick={() => handleCollapseComment(index)} role='button' className='expand'>Show Less</span>
                     )}
