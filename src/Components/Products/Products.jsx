@@ -162,7 +162,7 @@ const Products = ({ items, itemQuantities, toggleAddedStatus, }) => {
           <div className='mt-3'>
             <form onSubmit={handleSubmit(handleCommentSubmit)}>
               <div>
-                <h4>Add a comments</h4>
+                <h4>Add a review</h4>
               </div>
               <FloatingLabel controlId="floatingTextarea2" label="Comments">
                 <Form.Control
@@ -205,7 +205,7 @@ const Products = ({ items, itemQuantities, toggleAddedStatus, }) => {
             </form>
           </div>
           <div className='mt-4'>
-            <h4>Customer comments</h4>
+            <h4>Customer Reviews</h4>
             {storedComments.slice(0, visibleCommentCount).map((comment, index) => (
               <div key={index} className='d-flex flex-column mt-3'>
                 <div className='d-flex justify-content-between'>

@@ -19,7 +19,7 @@ const ImageModal = ({ show, handleClose, imageSrc,product }) => {
         <>
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title id="example-modal-sizes-title-sm">{product.category}</Modal.Title>
+                    <Modal.Title id="example-modal-sizes-title-sm">{product.title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className={`image-container ${zoomedIn ? 'zoomed-in' : ''}`}>
