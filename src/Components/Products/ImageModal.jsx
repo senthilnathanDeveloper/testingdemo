@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import './style.css';
 
-const ImageModal = ({ show, handleClose, imageSrc }) => {
+const ImageModal = ({ show, handleClose, imageSrc,product }) => {
     const [zoomedIn, setZoomedIn] = useState(false);
 
     const handleImageClick = () => {
@@ -19,7 +19,7 @@ const ImageModal = ({ show, handleClose, imageSrc }) => {
         <>
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title id="example-modal-sizes-title-sm">Image</Modal.Title>
+                    <Modal.Title id="example-modal-sizes-title-sm">{product.category}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className={`image-container ${zoomedIn ? 'zoomed-in' : ''}`}>

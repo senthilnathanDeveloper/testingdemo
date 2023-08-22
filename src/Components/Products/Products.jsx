@@ -5,7 +5,10 @@ import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useForm } from 'react-hook-form';
 import './style.css'
 import ImageModal from './ImageModal';
-
+const monthNames = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 const Products = ({ items, itemQuantities, toggleAddedStatus, }) => {
   const { productId } = useParams();
   const product = items.find(item => item.id === parseInt(productId));
@@ -16,6 +19,9 @@ const Products = ({ items, itemQuantities, toggleAddedStatus, }) => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const [showModal, setShowModal] = useState(false);
   const [zoomedImageSrc, setZoomedImageSrc] = useState('');
+  const [expandedComments, setExpandedComments] = useState([]);
+  const [visibleCommentCount, setVisibleCommentCount] = useState(5);
+
 
   const handleImageClick = () => {
     setZoomedImageSrc(product.image);
@@ -67,14 +73,21 @@ const Products = ({ items, itemQuantities, toggleAddedStatus, }) => {
     if (userRating === 0) {
       return;
     }
-    const newComments = [...storedComments, data.comment];
-    const newRatings = [...storedRatings, userRating]; // Store userRating along with comments
+    const currentDate = new Date();
+    const newComment = {
+      user: "Anonymous User", // Placeholder for anonymous user
+      comment: data.comment,
+      rating: userRating,
+      date: currentDate.toISOString()
+    };
+    const newComments = [...storedComments, newComment];
+    const newRatings = [...storedRatings, userRating];
     localStorage.setItem(`comments-${productId}`, JSON.stringify(newComments));
     localStorage.setItem(`ratings-${productId}`, JSON.stringify(newRatings));
     setStoredComments(newComments);
     setStoredRatings(newRatings);
-    setComments('');
-    setUserRating(0); // Clear the comment field after submission
+    setComments('')
+    setUserRating(0);
   };
 
 
@@ -89,6 +102,24 @@ const Products = ({ items, itemQuantities, toggleAddedStatus, }) => {
 
   const overallRating = calculateOverallRating();
 
+
+  const handleExpandComment = (index) => {
+    console.log("index", index)
+    setExpandedComments((prevExpanded) => [...prevExpanded, index]);
+  };
+
+  const handleCollapseComment = (index) => {
+    setExpandedComments((prevExpanded) => prevExpanded.filter((item) => item !== index));
+  };
+
+
+
+  const handleSeeMoreReviews = () => {
+    setVisibleCommentCount((prevCount) => prevCount + 5);
+  };
+
+
+
   return (
     <>
       <Row className='row m-0'>
@@ -99,6 +130,8 @@ const Products = ({ items, itemQuantities, toggleAddedStatus, }) => {
         </Col>
         <Col lg='6' className='mt-4'>
           <div> <h3>{product.title}</h3></div>
+
+
 
           {storedRatings.length > 0 && [1, 2, 3, 4, 5].map((_, starIndex) => (
             <span
@@ -117,6 +150,9 @@ const Products = ({ items, itemQuantities, toggleAddedStatus, }) => {
               <span className='rating-value fs-5'>{`${overallRating.toFixed(1)} out of 5 `}</span>
             </OverlayTrigger>
           )}
+
+
+
           <hr />
           <ul>
             <li className='fs-6 product-description '>{product.description}</li>
@@ -125,6 +161,9 @@ const Products = ({ items, itemQuantities, toggleAddedStatus, }) => {
 
           <div className='mt-5'>
             <form onSubmit={handleSubmit(handleCommentSubmit)}>
+              <div>
+                <h4>Add a comments</h4>
+              </div>
               <FloatingLabel controlId="floatingTextarea2" label="Comments">
                 <Form.Control
                   as="textarea"
@@ -167,26 +206,54 @@ const Products = ({ items, itemQuantities, toggleAddedStatus, }) => {
           </div>
           <div className='mt-4'>
             <h4>Customer comments</h4>
-            {storedComments.map((comment, index) => (
-              <div key={index} className='d-flex align-items-center justify-content-between mt-3 '>
-                <span>{comment}</span>
-                {storedRatings[index] !== undefined && (
-                  <div className='d-flex align-items-center ms-3'>
-                    {Array.from({ length: 5 }).map((_, starIndex) => (
-                      <span
-                        key={starIndex}
-                        className={`${starIndex < storedRatings[index] ? "starfill-icon" : "staroutline-icon"}`}
-                      >
-                        <AiFillStar />
+            {storedComments.slice(0, visibleCommentCount).map((comment, index) => (
+              <div key={index} className='d-flex flex-column mt-3'>
+                <div className='d-flex justify-content-between'>
+                  <span className='user-comment'>{comment.user}</span>
+                  {comment.rating !== undefined && (
+                    <div className='d-flex align-items-center'>
+                      {Array.from({ length: 5 }).map((_, starIndex) => (
+                        <span
+                          key={starIndex}
+                          className={`${starIndex < comment.rating ? "starfill-icon" : "staroutline-icon"}`}
+                        >
+                          <AiFillStar />
+                        </span>
+                      ))}
+                      <span className='rating-value fs-6'>
+                        {`${comment.rating.toFixed(1)} out of 5 `}
                       </span>
-                    ))}
-                    <span className='rating-value fs-6'>
-                      {`${storedRatings[index].toFixed(1)} out of 5 `}
-                    </span>
-                  </div>
+                    </div>
+                  )}
+                </div>
+                <span className='text-muted user-comment'>
+                  {`${new Date(comment.date).getDate()} ${monthNames[new Date(comment.date).getMonth()]} ${new Date(comment.date).getFullYear()}`}
+                </span>
+                {comment.comment.length > 100 && !expandedComments.includes(index) ? (
+                  <>
+                    <span>{`${comment.comment.slice(0, 100)}...`}</span>
+                    <span onClick={() => handleExpandComment(index)} role='button' className='expand'>Show More</span>
+                  </>
+                ) : (
+                  <>
+                    <span>{comment.comment}</span>
+                    {comment.comment.length > 100 && (
+                      <span onClick={() => handleCollapseComment(index)} role='button' className='expand'>Show Less</span>
+                    )}
+                  </>
                 )}
               </div>
             ))}
+            <hr />
+            {visibleCommentCount < storedComments.length && (
+              <>
+                <span onClick={handleSeeMoreReviews} role='button' className='expand-more'>See More Reviews</span>
+              </>
+            )}
+            {storedComments.length > 0 && (
+              <p>Total Reviews: {storedComments.length}</p>
+            )}
+
           </div>
 
 
@@ -207,6 +274,7 @@ const Products = ({ items, itemQuantities, toggleAddedStatus, }) => {
         show={showModal}
         handleClose={handleCloseModal}
         imageSrc={zoomedImageSrc}
+        product={product}
       />
     </>
   )

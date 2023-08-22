@@ -39,7 +39,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
     transition: all 0.3s ease-in-out;
 }
 
@@ -52,4 +51,23 @@
 
 .zoomed-in {
     transform: scale(2);
+}
+.user-comment{
+    font-size: 14px;
+    color: #565959  
+}
+.expand{
+    color: #007185;
+    font-size: 13px;
+}
+.expand:hover{
+    text-decoration: underline;
+}
+.expand-more{
+    font-size: 14px;
+    font-weight: bold;
+    color: #007185;
+}
+.expand-more:hover{
+    text-decoration: underline;
 }
